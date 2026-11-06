@@ -27,12 +27,16 @@ stock ShowAccountDialog(playerid)
     GetAccountPath(playerid, path, sizeof path);
     if (fexist(path))
     {
-        format(message, sizeof message, "Добро пожаловать на RoleT RP, %s!\nВведи пароль от аккаунта:", GetPlayerNameEx(playerid));
+        new playerName[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, playerName, sizeof playerName);
+        format(message, sizeof message, "Добро пожаловать на RoleT RP, %s!\nВведи пароль от аккаунта:", playerName);
         ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "RoleT RP | Авторизация", message, "Войти", "Выход");
     }
     else
     {
-        format(message, sizeof message, "Привет, %s!\nАккаунт ещё не создан. Придумай пароль:", GetPlayerNameEx(playerid));
+        new playerName[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, playerName, sizeof playerName);
+        format(message, sizeof message, "Привет, %s!\nАккаунт ещё не создан. Придумай пароль:", playerName);
         ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_PASSWORD, "RoleT RP | Регистрация", message, "Создать", "Выход");
     }
     return 1;
