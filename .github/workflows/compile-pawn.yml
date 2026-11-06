@@ -22,7 +22,7 @@ jobs:
           git clone --depth 1 https://github.com/pawn-lang/samp-stdlib.git /tmp/samp-stdlib
       - name: Compile RoleT
         run: |
-          pawncc server/gamemodes/RoleT.pwn -i/tmp/samp-stdlib -o/server/gamemodes/RoleT.amx -v2
+          pawncc server/gamemodes/RoleT.pwn -i/tmp/samp-stdlib -oserver/gamemodes/RoleT.amx -v2
       - uses: actions/upload-artifact@v4
         with:
           name: RoleT-AMX
