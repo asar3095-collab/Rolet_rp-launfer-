@@ -1,0 +1,29 @@
+name: Compile RoleT gamemode
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'server/gamemodes/RoleT.pwn'
+      - '.github/workflows/compile-pawn.yml'
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pawn compiler
+        run: |
+          curl -L https://github.com/pawn-lang/compiler/releases/download/v3.10.10/pawnc-3.10.10-linux.tar.gz -o /tmp/pawn.tar.gz
+          mkdir -p /tmp/pawn
+          tar -xzf /tmp/pawn.tar.gz -C /tmp/pawn
+          sudo cp /tmp/pawn/pawnc-3.10.10-linux/lib/libpawnc.so /usr/lib/
+          echo "/tmp/pawn/pawnc-3.10.10-linux/bin" >> "$GITHUB_PATH"
+      - name: Get SA-MP includes
+        run: |
+          git clone --depth 1 https://github.com/pawn-lang/samp-stdlib.git /tmp/samp-stdlib
+      - name: Compile RoleT
+        run: |
+          pawncc server/gamemodes/RoleT.pwn -i/tmp/samp-stdlib -o/server/gamemodes/RoleT.amx -v2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RoleT-AMX
+          path: server/gamemodes/RoleT.amx
