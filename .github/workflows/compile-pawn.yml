@@ -17,12 +17,13 @@ jobs:
           tar -xzf /tmp/pawn.tar.gz -C /tmp/pawn
           sudo cp /tmp/pawn/pawnc-3.10.10-linux/lib/libpawnc.so /usr/lib/
           echo "/tmp/pawn/pawnc-3.10.10-linux/bin" >> "$GITHUB_PATH"
-      - name: Get SA-MP includes
+      - name: Get PAWN and SA-MP includes
         run: |
+          git clone --depth 1 --branch v3.10.10 https://github.com/pawn-lang/compiler.git /tmp/pawn-compiler
           git clone --depth 1 https://github.com/pawn-lang/samp-stdlib.git /tmp/samp-stdlib
       - name: Compile RoleT
         run: |
-          pawncc server/gamemodes/RoleT.pwn -i/tmp/samp-stdlib -oserver/gamemodes/RoleT.amx -v2
+          pawncc server/gamemodes/RoleT.pwn -i/tmp/samp-stdlib -i/tmp/pawn-compiler/include -oserver/gamemodes/RoleT.amx -v2
       - uses: actions/upload-artifact@v4
         with:
           name: RoleT-AMX
